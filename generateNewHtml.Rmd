@@ -1,0 +1,30 @@
+---
+title: "生成網頁"
+output: html_document
+author:
+date: "20190911"
+params:
+  speaker: "Tom"
+  speechContent: "分享工作。。。。。"
+  speakerImage: "https://www.ntpu.edu.tw/admin/a3/files/a3_photo/20190805162930.jpg"
+---
+
+
+```{r}
+index <- readLines("index.html",encoding = 'UTF-8')
+
+
+# 把要取代的關鍵字取代掉
+library(stringr)
+#str_replace(indexContent,"_SPEAKER_",speaker)
+str_replace_all(
+index,
+c(
+"_Speaker_"=params$speaker,
+"_speechContent_"=params$speechContent,
+"assets/img/intro.jpg"=params$speakerImage
+)
+) -> newindexContent
+
+writeLines(newindexContent,"new.html",useByte = TRUE)
+```
